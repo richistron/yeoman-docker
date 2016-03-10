@@ -7,29 +7,28 @@ ENV DEBIAN_FRONTEND noninteractive
 EXPOSE 3000
 
 # apt packages
-RUN apt-get -y update && apt-get -y install git curl net-tools ruby-compass
+RUN apt-get -y update
 
-# npm global dependencie
-RUN npm install -g yo bower gulp
-RUN npm install -g generator-gulp-angular
+# npm global dependencies for yeoman gulp or grunt
+RUN npm install -g yo bower generator-webapp gulp
 
-# creating user yeoman
-RUN adduser --disabled-password --gecos "" yeoman && \
-      echo "yeoman ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
+# creating user webuser
+RUN adduser --disabled-password --gecos "" webuser && \
+      echo "webuser ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
 
-# yeoman home
-ENV HOME /home/yeoman
+# webuser home
+ENV HOME /home/webuser
 ENV LANG en_US.UTF-8
 
 # working dir
-RUN mkdir /src && chown yeoman:yeoman /src
+RUN mkdir /src && chown webuser:webuser /src
 WORKDIR /src
 
 # app bootstrap
-ADD bootstrap.sh /usr/local/sbin/
-RUN chmod +x /usr/local/sbin/bootstrap.sh
-ENTRYPOINT ["bootstrap.sh"]
+ADD bootstrap /usr/local/sbin/
+RUN chmod +x /usr/local/sbin/bootstrap
+ENTRYPOINT ["bootstrap"]
 
-# login as yeoman
-USER yeoman
+# login as webuser
+USER webuser
 CMD /bin/bash
