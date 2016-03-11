@@ -7,7 +7,7 @@ ENV DEBIAN_FRONTEND noninteractive
 EXPOSE 3000
 
 # apt packages
-RUN apt-get -y update
+RUN apt-get -y update && apt-get install git
 
 # npm global dependencies for yeoman gulp or grunt
 RUN npm install -g yo bower generator-webapp gulp
